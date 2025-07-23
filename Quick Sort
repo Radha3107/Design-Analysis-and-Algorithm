@@ -1,0 +1,72 @@
+#include <stdio.h>  // Include standard input/output library
+
+// Function to swap two integers using pointers
+void swap(int *a, int *b) {
+    int t = *a;     // Temporary variable holds value at address a
+    *a = *b;        // Value at a is set to value at b
+    *b = t;         // Value at b is set to original value at a
+}
+
+// Partition function for Quick Sort
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];  // Choose the last element as pivot
+    int i = low - 1;        // i marks the index of smaller element
+
+    // Loop through elements from low to high-1
+    for (int j = low; j < high; j++) {
+        if (arr[j] < pivot) {      // If current element is smaller than pivot
+            i++;                   // Move index of smaller element
+            swap(&arr[i], &arr[j]); // Swap current element with the element at index i
+        }
+    }
+    swap(&arr[i + 1], &arr[high]); // Finally, place the pivot in correct position
+    return i + 1;                  // Return pivot index
+}
+
+// Quick Sort recursive function
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {                  // If there are at least two elements to sort
+        int pi = partition(arr, low, high); // Partition the array and get pivot index
+
+        // Print the part of the array currently being sorted (from low to high)
+        printf("Pass:");
+        for (int i = low; i <= high; i++) {
+            printf(" %d", arr[i]);     // Print current sub-array
+        }
+        printf("\n");
+
+        quickSort(arr, low, pi - 1);   // Recursively sort the left part
+        quickSort(arr, pi + 1, high);  // Recursively sort the right part
+    }
+}
+
+int main() {
+    int n; // Variable to store number of elements
+    printf("number of elements: ");
+    scanf("%d", &n); // Read number of elements from user
+
+    int arr[n]; // Declare array of size n
+
+    printf("elements: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]); // Read n elements into the array
+    }
+
+    // Print the original array before sorting
+    printf("Original array:");
+    for (int i = 0; i < n; i++) {
+        printf(" %d", arr[i]);
+    }
+    printf("\n");
+
+    quickSort(arr, 0, n - 1); // Call Quick Sort on the full array
+
+    // Print the sorted array after all passes
+    printf("Sorted array:");
+    for (int i = 0; i < n; i++) {
+        printf(" %d", arr[i]);
+    }
+    printf("\n");
+
+    return 0; // Exit the program
+}
